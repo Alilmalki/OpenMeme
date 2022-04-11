@@ -108,6 +108,19 @@ const getTopLikedMemes = async (req, res) => {
     }
 };
 
+//Get users who liked a meme
+//Body : {id: id of the meme}
+const getMemeLikers = async (req, res) => {
+    try{
+        const { id } = req.body;
+        const memeLikers = await Meme.findOne({_id: id}).likedBy;
+        res.status(200).send(memeLikers);
+    } catch(err) {
+        res.status(404);
+        res.send({error: "Meme not found!"});
+    }
+}
+
 // Comment On a Meme
 
 // Post Comment on a Meme
@@ -177,5 +190,6 @@ module.exports = {
     postComment,
     deleteCommentById,
     updateCommentById,
-    getTopLikedMemes
+    getTopLikedMemes,
+    getMemeLikers
 };
